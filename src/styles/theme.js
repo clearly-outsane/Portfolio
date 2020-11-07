@@ -5,7 +5,7 @@ let theme = createMuiTheme({
         fontFamily: [
             '-apple-system',
             'BlinkMacSystemFont',
-
+            'Poppins',
             '"Segoe UI"',
             'Roboto',
             '"Helvetica Neue"',

@@ -13,7 +13,6 @@ const Work = () => {
                 title='TEDx PESU'
                 content='Website for the TEDx PESU Countdown event'
             />
-            <WorkSlide img={mockup1} />
         </div>
     )
 }

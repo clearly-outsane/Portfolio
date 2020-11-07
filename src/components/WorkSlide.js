@@ -22,12 +22,31 @@ const WorkSlide = ({ img, center = true, title, content }) => {
             >
                 <div className='overlay'></div>
             </div>
+            <div style={{ ...cover, position: 'absolute' }}>
+                <Grid
+                    container
+                    justify='center'
+                    alignItems='center'
+                    style={{ ...cover }}
+                >
+                    <div
+                        style={{
+                            backgroundImage: `url(${img})`,
+                            backgroundSize: 'cover',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: '50% 30%',
+                            width: '50%',
+                            height: '60%',
+                        }}
+                    ></div>
+                </Grid>
+            </div>
 
             <Grid
                 container
                 alignItems='flex-start'
                 justify='flex-end'
-                style={{ color: white, ...cover }}
+                style={{ color: white, ...cover, position: 'relative' }}
                 className='container'
                 direction='column'
             >
