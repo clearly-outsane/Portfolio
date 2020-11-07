@@ -7,39 +7,56 @@ import gsap from 'gsap'
 import { cover, white } from '../styles'
 import { imageSlideUp, imageSlideFromDown } from '../utils/animations'
 
-const WorkSlide = ({ img, center = true, title, content }) => {
+const WorkSlide = ({ img, center = true, title, content, setPos }) => {
+    let animating = false
+    let pos = 0
+    let timeout
     useEffect(() => {
         let duration = 1.8
-        let animating = false
+
+        window.addEventListener('touchmove', (e) => {
+            console.log(e.touches[0].clientY)
+        })
         window.addEventListener('wheel', (e) => {
             // window.requestAnimationFrame(raf)
-            console.log(e.deltaY)
+            animate(e.deltaY)
+        })
 
-            if (e.deltaY > 0)
-                window.requestAnimationFrame(function () {
+        const animate = (value) => {
+            if (timeout) {
+                window.cancelAnimationFrame(timeout)
+            }
+            if (value > 0)
+                timeout = window.requestAnimationFrame(function () {
                     raf('top')
-                    // Run our scroll functions
-                    console.log('top')
                 })
             else
-                window.requestAnimationFrame(function () {
+                timeout = window.requestAnimationFrame(function () {
                     raf('down')
                     // Run our scroll functions
                     console.log('debounced')
                 })
-        })
+        }
 
-        const allowAnimation = () => {
+        const onAnimationComplete = () => {
             animating = false
+        }
+
+        const updatePos = (direction) => {
+            if (direction === 'top') {
+                setPos(pos + 1)
+                pos += 1
+                if (pos > 2) pos = 0
+            }
         }
 
         const raf = (direction) => {
             if (!animating) {
                 if (direction === 'top') {
                     animating = true
-                    imageSlideUp(allowAnimation, 1.6)
+                    imageSlideUp(() => updatePos('top'), 1.6)
                     setTimeout(() => {
-                        imageSlideFromDown(allowAnimation, 1)
+                        imageSlideFromDown(onAnimationComplete, 1)
                     }, duration * 1000)
                 }
             }
@@ -54,7 +71,7 @@ const WorkSlide = ({ img, center = true, title, content }) => {
                     backgroundImage: `url(${img})`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: `${center ? 'center' : undefined}`,
+                    backgroundPosition: `${center ? 'center' : 'top'}`,
                     ...cover,
                     position: 'absolute',
                     zIndex: -1,
