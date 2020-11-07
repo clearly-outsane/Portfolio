@@ -17,6 +17,7 @@ const WorkSlide = ({ img, center = true, title, content }) => {
                     ...cover,
                     position: 'absolute',
                     zIndex: -1,
+                    filter: ' grayscale(84%)',
                 }}
             >
                 <div className='overlay'></div>
