@@ -1,11 +1,52 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
+import gsap from 'gsap'
 
 import { cover, white } from '../styles'
+import { imageSlideUp, imageSlideFromDown } from '../utils/animations'
 
 const WorkSlide = ({ img, center = true, title, content }) => {
+    useEffect(() => {
+        let duration = 1.8
+        let animating = false
+        window.addEventListener('wheel', (e) => {
+            // window.requestAnimationFrame(raf)
+            console.log(e.deltaY)
+
+            if (e.deltaY > 0)
+                window.requestAnimationFrame(function () {
+                    raf('top')
+                    // Run our scroll functions
+                    console.log('top')
+                })
+            else
+                window.requestAnimationFrame(function () {
+                    raf('down')
+                    // Run our scroll functions
+                    console.log('debounced')
+                })
+        })
+
+        const allowAnimation = () => {
+            animating = false
+        }
+
+        const raf = (direction) => {
+            if (!animating) {
+                if (direction === 'top') {
+                    animating = true
+                    imageSlideUp(allowAnimation, 1.6)
+                    setTimeout(() => {
+                        imageSlideFromDown(allowAnimation, 1)
+                    }, duration * 1000)
+                }
+            }
+        }
+        return () => {}
+    }, [])
+
     return (
         <div style={{ height: '100vh', width: '100vw', position: 'relative' }}>
             <div
@@ -30,15 +71,24 @@ const WorkSlide = ({ img, center = true, title, content }) => {
                     style={{ ...cover }}
                 >
                     <div
+                        className='project-image-container'
                         style={{
-                            backgroundImage: `url(${img})`,
-                            backgroundSize: 'cover',
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: '50% 30%',
                             width: '50%',
                             height: '60%',
+                            overflow: 'hidden',
+                            position: 'relative',
                         }}
-                    ></div>
+                    >
+                        <div
+                            style={{
+                                backgroundImage: `url(${img})`,
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: '50% 30%',
+                                ...cover,
+                            }}
+                        />
+                    </div>
                 </Grid>
             </div>
 
