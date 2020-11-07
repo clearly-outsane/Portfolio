@@ -18,7 +18,7 @@ export const imageSlideFromDown = (cb, duration) => {
         { y: '90vh' },
         {
             y: 0,
-            ease: 'power3.out',
+            ease: 'expo.out',
             duration: duration,
             onComplete: () => cb(),
         }
