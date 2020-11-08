@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import './App.css'
-import { Work } from './pages'
+import { Work, Test } from './pages'
 import { theme } from './styles'
 import { Nav } from './components'
 

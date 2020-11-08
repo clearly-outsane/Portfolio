@@ -24,3 +24,30 @@ export const imageSlideFromDown = (cb, duration) => {
         }
     )
 }
+
+export const textSlideUp = (cb, duration) => {
+    gsap.to(['.work-title', '.work-description'], {
+        y: '-50vh',
+
+        ease: 'expo.inOut',
+        duration: duration,
+        stagger: 0.2,
+        onComplete: () => {
+            cb()
+        },
+    })
+}
+
+export const textSlideFromDown = (cb, duration) => {
+    gsap.fromTo(
+        ['.work-title', '.work-description'],
+        { y: '50vh' },
+        {
+            y: 0,
+            stagger: 0.2,
+            ease: 'expo.out',
+            duration: duration,
+            onComplete: () => cb(),
+        }
+    )
+}

@@ -4,15 +4,40 @@ import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import gsap from 'gsap'
 
+import hoverEffect from '../utils/transition'
+import image from '../assets/images/countdown.png'
+import image2 from '../assets/images/mockup1.png'
+import disp1 from '../assets/images/disp1.jpg'
+
 import { cover, white } from '../styles'
-import { imageSlideUp, imageSlideFromDown } from '../utils/animations'
+import {
+    imageSlideUp,
+    imageSlideFromDown,
+    textSlideUp,
+    textSlideFromDown,
+} from '../utils/animations'
+import { noOfSlides } from '../constants'
 
 const WorkSlide = ({ img, center = true, title, content, setPos }) => {
-    let animating = false
-    let pos = 0
-    let timeout
     useEffect(() => {
+        return () => {}
+    }, [])
+
+    useEffect(() => {
+        var myAnimation = new hoverEffect({
+            parent: document.querySelector('.renderImageHere'),
+            intensity: 0.3,
+            image1: image2,
+            image2: image,
+            displacementImage: disp1,
+            imagesRatio: 3 / 4,
+            intensity: 0.36,
+            speed: 1.2,
+        })
+        let animating = false
         let duration = 1.8
+        let timeout
+        let pos = 0
 
         window.addEventListener('touchmove', (e) => {
             console.log(e.touches[0].clientY)
@@ -46,7 +71,7 @@ const WorkSlide = ({ img, center = true, title, content, setPos }) => {
             if (direction === 'top') {
                 setPos(pos + 1)
                 pos += 1
-                if (pos > 2) pos = 0
+                if (pos > noOfSlides) pos = 0
             }
         }
 
@@ -55,9 +80,17 @@ const WorkSlide = ({ img, center = true, title, content, setPos }) => {
                 if (direction === 'top') {
                     animating = true
                     imageSlideUp(() => updatePos('top'), 1.6)
+                    textSlideUp(() => {}, 1.6)
+                    setTimeout(() => {
+                        myAnimation[1]()
+                    }, 800)
+
+                    setTimeout(() => {
+                        textSlideFromDown(() => {}, 1)
+                    }, 1.6 * 1000)
                     setTimeout(() => {
                         imageSlideFromDown(onAnimationComplete, 1)
-                    }, duration * 1000)
+                    }, 1.8 * 1000)
                 }
             }
         }
@@ -67,18 +100,27 @@ const WorkSlide = ({ img, center = true, title, content, setPos }) => {
     return (
         <div style={{ height: '100vh', width: '100vw', position: 'relative' }}>
             <div
-                style={{
-                    backgroundImage: `url(${img})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: `${center ? 'center' : 'top'}`,
-                    ...cover,
-                    position: 'absolute',
-                    zIndex: -1,
-                    filter: ' grayscale(84%)',
-                }}
+                className='background-image'
+                style={
+                    {
+                        // backgroundImage: `url(${img})`,
+                        // backgroundSize: 'cover',
+                        // backgroundRepeat: 'no-repeat',
+                        // backgroundPosition: `${center ? 'center' : 'top'}`,
+                    }
+                }
             >
-                <div className='overlay'></div>
+                <div
+                    className='renderImageHere'
+                    style={{
+                        ...cover,
+                        position: 'absolute',
+                        zIndex: -1,
+                        filter: ' grayscale(84%)',
+                    }}
+                >
+                    <div className='overlay' />
+                </div>
             </div>
             <div style={{ ...cover, position: 'absolute' }}>
                 <Grid
@@ -117,15 +159,22 @@ const WorkSlide = ({ img, center = true, title, content, setPos }) => {
                 className='container'
                 direction='column'
             >
-                <Typography variant='h1'> {title}</Typography>
-                <Typography
-                    variant='h6'
-                    style={{
-                        fontWeight: 400,
-                    }}
-                >
-                    {content}
-                </Typography>
+                <div style={{ overflow: 'hidden' }}>
+                    <Typography variant='h1' className='work-title'>
+                        {title}
+                    </Typography>
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                    <Typography
+                        variant='h6'
+                        style={{
+                            fontWeight: 400,
+                        }}
+                        className='work-description'
+                    >
+                        {content}
+                    </Typography>
+                </div>
             </Grid>
         </div>
     )

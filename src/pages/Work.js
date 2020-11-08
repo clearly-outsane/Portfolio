@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { WorkSlide } from '../components'
 import countdown from '../assets/images/countdown.png'
 import mockup1 from '../assets/images/mockup1.png'
+import { noOfSlides } from '../constants'
 
 const works = [
     {
@@ -30,7 +31,7 @@ const Work = () => {
     const [pos, setPos] = useState(0)
 
     const limitSetPos = (pos) => {
-        if (pos > 2) setPos(0)
+        if (pos > noOfSlides) setPos(0)
         else setPos(pos)
     }
 
