@@ -269,6 +269,15 @@ void main() {
         })
     }
 
+    function updateImages(img1, img2) {
+        image1 = img1
+        image2 = img2
+        mat.uniforms.texture2.value = loader.load(img2, render)
+        mat.uniforms.texture1.value = loader.load(img1, render)
+
+        mat.uniforms.dispFactor.value = 1
+    }
+
     if (userHover) {
         // parent.addEventListener('mouseenter', transitionIn)
         // parent.addEventListener('touchstart', transitionIn)
@@ -298,5 +307,5 @@ void main() {
     this.next = transitionIn
     this.previous = transitionOut
 
-    return [transitionIn, transitionOut]
+    return [transitionIn, transitionOut, updateImages]
 }

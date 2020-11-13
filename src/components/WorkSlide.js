@@ -5,8 +5,6 @@ import Container from '@material-ui/core/Container'
 import gsap from 'gsap'
 
 import hoverEffect from '../utils/transition'
-import image from '../assets/images/countdown.png'
-import image2 from '../assets/images/mockup1.png'
 import disp1 from '../assets/images/disp1.jpg'
 
 import { cover, white } from '../styles'
@@ -18,26 +16,33 @@ import {
 } from '../utils/animations'
 import { noOfSlides } from '../constants'
 
-const WorkSlide = ({ img, center = true, title, content, setPos }) => {
+const WorkSlide = ({ img, title, content, setPos, images }) => {
     useEffect(() => {
         return () => {}
     }, [])
 
     useEffect(() => {
+        let animating = false
+        let duration = 1.8
+        let timeout
+        let pos = 0
+
         var myAnimation = new hoverEffect({
             parent: document.querySelector('.renderImageHere'),
             intensity: 0.3,
-            image1: image2,
-            image2: image,
+            image1: images[1],
+            image2: images[0],
             displacementImage: disp1,
             imagesRatio: 3 / 4,
             intensity: 0.36,
             speed: 1.2,
         })
-        let animating = false
-        let duration = 1.8
-        let timeout
-        let pos = 0
+
+        const updateAnimation = (pos) => {
+            console.log(pos)
+            const nextPos = (pos + 1) % (noOfSlides + 1)
+            myAnimation[2](images[nextPos], images[pos])
+        }
 
         window.addEventListener('touchmove', (e) => {
             console.log(e.touches[0].clientY)
@@ -65,6 +70,7 @@ const WorkSlide = ({ img, center = true, title, content, setPos }) => {
 
         const onAnimationComplete = () => {
             animating = false
+            updateAnimation(pos)
         }
 
         const updatePos = (direction) => {
@@ -79,18 +85,18 @@ const WorkSlide = ({ img, center = true, title, content, setPos }) => {
             if (!animating) {
                 if (direction === 'top') {
                     animating = true
-                    imageSlideUp(() => updatePos('top'), 1.6)
-                    textSlideUp(() => {}, 1.6)
+                    imageSlideUp(() => updatePos('top'), 1.4)
+                    textSlideUp(() => {}, 1.4)
                     setTimeout(() => {
                         myAnimation[1]()
-                    }, 800)
+                    }, 600)
 
                     setTimeout(() => {
                         textSlideFromDown(() => {}, 1)
-                    }, 1.6 * 1000)
+                    }, 1.4 * 1000)
                     setTimeout(() => {
                         imageSlideFromDown(onAnimationComplete, 1)
-                    }, 1.8 * 1000)
+                    }, 1.6 * 1000)
                 }
             }
         }

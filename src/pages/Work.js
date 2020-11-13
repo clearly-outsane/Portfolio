@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
 
 import { WorkSlide } from '../components'
-import countdown from '../assets/images/countdown.png'
-import mockup1 from '../assets/images/mockup1.png'
+import img1 from '../assets/images/countdown.png'
+import img2 from '../assets/images/mockup4.png'
+import img3 from '../assets/images/mockup2.png'
+import img4 from '../assets/images/mockup3.png'
 import { noOfSlides } from '../constants'
 
+const images = [img1, img2, img3, img4]
 const works = [
     {
-        img: countdown,
+        img: images[0],
         title: 'TEDx PESU',
         content: 'Website for the TEDx PESU Countdown event',
-        center: false,
     },
     {
-        img: countdown,
+        img: images[1],
         title: 'CAREHUB',
         content:
             'A safe space for young adults to deal with mental health issues',
-        center: false,
     },
     {
-        img: countdown,
+        img: images[2],
         title: 'APNE',
         content: 'Platform for the next 400 million users of India',
-        center: false,
     },
 ]
 
@@ -37,7 +37,12 @@ const Work = () => {
 
     return (
         <div>
-            <WorkSlide {...works[pos]} setPos={limitSetPos} pos={pos} />
+            <WorkSlide
+                {...works[pos]}
+                setPos={limitSetPos}
+                pos={pos}
+                images={images}
+            />
         </div>
     )
 }
