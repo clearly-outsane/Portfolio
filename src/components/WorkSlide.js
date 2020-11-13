@@ -30,18 +30,19 @@ const WorkSlide = ({ img, title, content, setPos, images }) => {
         var myAnimation = new hoverEffect({
             parent: document.querySelector('.renderImageHere'),
             intensity: 0.3,
-            image1: images[1],
-            image2: images[0],
+            // image1: images[1],
+            // image2: images[0],
             displacementImage: disp1,
             imagesRatio: 3 / 4,
             intensity: 0.36,
             speed: 1.2,
+            images: images,
         })
 
         const updateAnimation = (pos) => {
             console.log(pos)
             const nextPos = (pos + 1) % (noOfSlides + 1)
-            myAnimation[2](images[nextPos], images[pos])
+            myAnimation[2](pos, nextPos)
         }
 
         window.addEventListener('touchmove', (e) => {

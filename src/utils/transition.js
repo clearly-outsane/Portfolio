@@ -57,11 +57,11 @@ void main() {
             if (arguments[i] !== undefined) return arguments[i]
         }
     }
-
+    var images = opts.images
     var parent = opts.parent
     var dispImage = opts.displacementImage
-    var image1 = opts.image1
-    var image2 = opts.image2
+    var image1 = opts.images[1]
+    var image2 = opts.images[0]
     var imagesRatio = firstDefined(opts.imagesRatio, 1.0)
     var intensity1 = firstDefined(opts.intensity1, opts.intensity, 1)
     var intensity2 = firstDefined(opts.intensity2, opts.intensity, 1)
@@ -171,8 +171,12 @@ void main() {
             false
         )
     } else {
-        var texture1 = loader.load(image1, render)
-        var texture2 = loader.load(image2, render)
+        var texture = []
+        images.forEach((image, index) =>
+            texture.push(loader.load(image, render))
+        )
+        var texture1 = texture[1]
+        var texture2 = texture[0]
 
         texture1.magFilter = texture2.magFilter = THREE.LinearFilter
         texture1.minFilter = texture2.minFilter = THREE.LinearFilter
@@ -269,11 +273,11 @@ void main() {
         })
     }
 
-    function updateImages(img1, img2) {
-        image1 = img1
-        image2 = img2
-        mat.uniforms.texture2.value = loader.load(img2, render)
-        mat.uniforms.texture1.value = loader.load(img1, render)
+    function updateImages(pos, nextPos) {
+        image1 = texture[nextPos]
+        image2 = texture[pos]
+        mat.uniforms.texture2.value = texture[pos]
+        mat.uniforms.texture1.value = texture[nextPos]
 
         mat.uniforms.dispFactor.value = 1
     }
