@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { TweenMax, Expo, Power3 } from 'gsap'
+import { TweenMax, Expo, Power3, Power2 } from 'gsap'
 
 export default function (opts) {
     var vertex = `
@@ -71,7 +71,7 @@ void main() {
     var speedIn = firstDefined(opts.speedIn, opts.speed, 1.6)
     var speedOut = firstDefined(opts.speedOut, opts.speed, 1.2)
     var userHover = firstDefined(opts.hover, true)
-    var easing = firstDefined(opts.easing, Power3.easeInOut)
+    var easing = firstDefined(opts.easing, Power2.easeInOut)
     var video = firstDefined(opts.video, false)
 
     if (!parent) {

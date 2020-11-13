@@ -16,15 +16,7 @@ import {
 } from '../utils/animations'
 import { noOfSlides } from '../constants'
 
-const WorkSlide = ({ img, title, content, setPos, images }) => {
-    useEffect(() => {
-        images.forEach((image) => {
-            const img = new Image()
-            img.src = image
-        })
-        return () => {}
-    }, [])
-
+const WorkSlide = ({ img, title, content, setPos, images, pos }) => {
     useEffect(() => {
         let animating = false
         let duration = 1.8
@@ -38,7 +30,7 @@ const WorkSlide = ({ img, title, content, setPos, images }) => {
             // image2: images[0],
             displacementImage: disp1,
             imagesRatio: 3 / 4,
-            intensity: 0.36,
+            intensity: 0.2,
             speed: 1.2,
             images: images,
         })
@@ -89,8 +81,10 @@ const WorkSlide = ({ img, title, content, setPos, images }) => {
             if (!animating) {
                 if (direction === 'top') {
                     animating = true
-                    imageSlideUp(() => updatePos('top'), 1.4)
-                    textSlideUp(() => {}, 1.2)
+                    imageSlideUp(() => {}, 1.4)
+                    textSlideUp(() => {
+                        updatePos('top')
+                    }, 1.2)
                     setTimeout(() => {
                         myAnimation[1]()
                     }, 600)
@@ -150,7 +144,7 @@ const WorkSlide = ({ img, title, content, setPos, images }) => {
                     >
                         <div
                             style={{
-                                backgroundImage: `url(${img})`,
+                                backgroundImage: `url(${images[pos]})`,
                                 backgroundSize: 'cover',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: '50% 30%',

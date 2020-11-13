@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { WorkSlide } from '../components'
 import img1 from '../assets/images/countdown.png'
@@ -29,6 +29,14 @@ const works = [
 
 const Work = () => {
     const [pos, setPos] = useState(0)
+
+    useEffect(() => {
+        images.forEach((image) => {
+            const img = new Image()
+            img.src = image
+        })
+        return () => {}
+    }, [])
 
     const limitSetPos = (pos) => {
         if (pos > noOfSlides) setPos(0)
