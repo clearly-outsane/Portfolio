@@ -18,6 +18,10 @@ import { noOfSlides } from '../constants'
 
 const WorkSlide = ({ img, title, content, setPos, images }) => {
     useEffect(() => {
+        images.forEach((image) => {
+            const img = new Image()
+            img.src = image
+        })
         return () => {}
     }, [])
 
@@ -40,7 +44,6 @@ const WorkSlide = ({ img, title, content, setPos, images }) => {
         })
 
         const updateAnimation = (pos) => {
-            console.log(pos)
             const nextPos = (pos + 1) % (noOfSlides + 1)
             myAnimation[2](pos, nextPos)
         }
@@ -87,17 +90,17 @@ const WorkSlide = ({ img, title, content, setPos, images }) => {
                 if (direction === 'top') {
                     animating = true
                     imageSlideUp(() => updatePos('top'), 1.4)
-                    textSlideUp(() => {}, 1.4)
+                    textSlideUp(() => {}, 1.2)
                     setTimeout(() => {
                         myAnimation[1]()
                     }, 600)
 
                     setTimeout(() => {
                         textSlideFromDown(() => {}, 1)
-                    }, 1.4 * 1000)
+                    }, 1.3 * 1000)
                     setTimeout(() => {
                         imageSlideFromDown(onAnimationComplete, 1)
-                    }, 1.6 * 1000)
+                    }, 1.5 * 1000)
                 }
             }
         }

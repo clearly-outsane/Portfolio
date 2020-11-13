@@ -175,6 +175,7 @@ void main() {
         images.forEach((image, index) =>
             texture.push(loader.load(image, render))
         )
+
         var texture1 = texture[1]
         var texture2 = texture[0]
 
@@ -274,9 +275,10 @@ void main() {
     }
 
     function updateImages(pos, nextPos) {
+        image2 = image1
         image1 = texture[nextPos]
-        image2 = texture[pos]
-        mat.uniforms.texture2.value = texture[pos]
+
+        mat.uniforms.texture2.value = mat.uniforms.texture1.value
         mat.uniforms.texture1.value = texture[nextPos]
 
         mat.uniforms.dispFactor.value = 1
